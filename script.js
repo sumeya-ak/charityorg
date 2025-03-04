@@ -104,8 +104,90 @@ const animateStats = () => {
     stats.forEach(stat => observer.observe(stat));
 };
 
+// Add scroll reveal animation
+const revealOnScroll = () => {
+    const elements = document.querySelectorAll('.cause-card, .donation-amount, .stat-item');
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('reveal');
+                observer.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.2 });
+
+    elements.forEach(el => observer.observe(el));
+};
+
+// Add donation progress bars
+const initializeDonationProgress = () => {
+    const goals = {
+        'education': { current: 15000, goal: 25000 },
+        'healthcare': { current: 18000, goal: 30000 },
+        'water': { current: 12000, goal: 20000 }
+    };
+
+    Object.entries(goals).forEach(([cause, amounts]) => {
+        const progressBar = document.querySelector(`.${cause}-progress`);
+        if (progressBar) {
+            const percentage = (amounts.current / amounts.goal) * 100;
+            progressBar.style.width = `${percentage}%`;
+            progressBar.setAttribute('aria-valuenow', percentage);
+        }
+    });
+};
+
+// Add email validation
+const validateEmail = (email) => {
+    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return re.test(email);
+};
+
+// Enhance contact form handling
+const enhanceContactForm = () => {
+    const form = document.querySelector('.contact-form');
+    const inputs = form.querySelectorAll('input, textarea');
+
+    inputs.forEach(input => {
+        input.addEventListener('blur', function() {
+            if (!this.value) {
+                this.classList.add('error');
+            } else {
+                this.classList.remove('error');
+                if (this.type === 'email' && !validateEmail(this.value)) {
+                    this.classList.add('error');
+                }
+            }
+        });
+    });
+};
+
+// Add countdown timer for campaigns
+const initializeCountdown = () => {
+    const deadline = new Date('2024-12-31').getTime();
+    
+    const updateTimer = () => {
+        const now = new Date().getTime();
+        const distance = deadline - now;
+        
+        const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        
+        document.querySelector('.countdown').innerHTML = `
+            <span>${days}d</span> : <span>${hours}h</span> remaining in campaign
+        `;
+    };
+    
+    setInterval(updateTimer, 1000);
+    updateTimer();
+};
+
 // Initialize everything when DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
     createMobileMenu();
     animateStats();
+    revealOnScroll();
+    initializeDonationProgress();
+    enhanceContactForm();
+    initializeCountdown();
 }); 

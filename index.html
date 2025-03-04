@@ -65,6 +65,12 @@
                     <i class="fas fa-graduation-cap"></i>
                     <h3>Education</h3>
                     <p>Providing quality education and learning resources to underprivileged children.</p>
+                    <div class="progress-container">
+                        <div class="progress">
+                            <div class="progress-bar education-progress" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                        <p class="progress-text">$15,000 of $25,000 raised</p>
+                    </div>
                 </div>
                 <div class="cause-card">
                     <i class="fas fa-heart"></i>
@@ -77,6 +83,13 @@
                     <p>Delivering clean water solutions to communities in need.</p>
                 </div>
             </div>
+        </div>
+    </section>
+
+    <section class="campaign-timer">
+        <div class="container">
+            <h2>Current Campaign Ending Soon</h2>
+            <div class="countdown"></div>
         </div>
     </section>
 
@@ -114,7 +127,10 @@
                     <p><i class="fas fa-envelope"></i> info@hopefoundation.org</p>
                 </div>
                 <form class="contact-form">
-                    <input type="text" placeholder="Your Name">
+                    <div class="form-group">
+                        <input type="text" placeholder="Your Name" required>
+                        <span class="error-message">Please enter your name</span>
+                    </div>
                     <input type="email" placeholder="Your Email">
                     <textarea placeholder="Your Message"></textarea>
                     <button type="submit" class="submit-button">Send Message</button>
